@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 public class Robot extends TimedRobot {
   Drivetrain drivetrain;
   SerialPort arduino;
+  Joystick driver;
   
 
 
@@ -15,6 +17,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     arduino = new SerialPort(9600, Port.kUSB);
     drivetrain = new Drivetrain(0,1,2,3);
+    driver = new Joystick(0);
   }
 
 
@@ -43,6 +46,7 @@ public class Robot extends TimedRobot {
  
   @Override
   public void teleopPeriodic() {
+    drivetrain.arcade(driver.getRawAxis(1) , driver.getRawAxis(2))
   }
 
   @Override
