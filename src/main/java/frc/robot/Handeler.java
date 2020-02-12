@@ -45,9 +45,6 @@ public class Handeler{
             extend.set(DoubleSolenoid.Value.kReverse);
         }
         
-
-
-        
         if (shoot){
 
         }
