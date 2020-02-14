@@ -9,7 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class Climber{
     TalonSRX cMotor, cMotor1;
     DoubleSolenoid solenoid1, solenoid2;
-    Boolean extended, exdown;
+    Boolean goingUp;
     DigitalInput uplimit, downlimit;
     public Climber(int c, int c1, int s, int s1, int up, int down) {
         cMotor = new TalonSRX(c);
@@ -20,24 +20,17 @@ public class Climber{
         downlimit = new DigitalInput(down);
     }
     
-    public void climb(){
-        if (extended && !exdown){
-            solenoid1.set(DoubleSolenoid.Value.kReverse);
-            cMotor.set(ControlMode.PercentOutput, -0.5);
-            extended=!extended;
-            exdown = true;
+    public void climb(boolean button){
+        if(button){
+            goingUp = !goingUp;
         }
-        else if(!exdown){
-            solenoid1.set(DoubleSolenoid.Value.kReverse);
-            cMotor.set(ControlMode.PercentOutput, -0.5);
-            extended=!extended;
-            exdown = true;
+        if(!uplimit.get() && goingUp){
+            // Move motors up here
         }
-        else {
-            exdown=false;
-        } 
-        if (!downlimit.get() && extended){
-
-        }  
+        if(!downlimit.get() && !goingUp){
+            // Move motors down here
+       
     }
+}
+
 }
