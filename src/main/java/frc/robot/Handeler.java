@@ -52,7 +52,6 @@ public class Handeler{
         }
        
         if (shoot){
-
         }
        
         if (harvest){
@@ -86,7 +85,7 @@ public class Handeler{
             e1Motor.set(ControlMode.PercentOutput, 0);
         }
         if (shoot){
-            s1Motor.set(ControlMode.PercentOutput, 1);
+            s1Motor.set(ControlMode.PercentOutput, 0.8);
         }
         else{
             s1Motor.set(ControlMode.PercentOutput, 0);

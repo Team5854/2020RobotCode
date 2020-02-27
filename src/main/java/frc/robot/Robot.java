@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     //arduino = new SerialPort(9600, Port.kUSB);
     arduino = new Arduino();
-    drivetrain = new Drivetrain(2,3,4,5);
+    drivetrain = new Drivetrain(2,3,4,5,false,false,false,false);
     handeler= new Handeler(13,7,8,9,10,11);
     driver = new Joystick(0);
     climber = new Climber(1,12);
