@@ -12,8 +12,10 @@ public class Handeler{
     TalonSRX haMotor, inMotor, e1Motor, e2Motor, s1Motor, s2Motor;
     DoubleSolenoid extend;
     boolean extended, exdown;
-    public Handeler(final int ha, final int in, final int e1, final int e2, final int s1, final int s2, final int ex,
-            final int ex1) {
+    public Handeler(final int ha, final int in, final int e1, final int e2, final int s1, final int s2) {
+
+// deleted due to no harvest: , final int ex, final int ex1
+
         haMotor = new TalonSRX(ha);
         inMotor = new TalonSRX(in);
         e1Motor = new TalonSRX(e1);
@@ -22,7 +24,11 @@ public class Handeler{
         s2Motor = new TalonSRX(s2);
         e2Motor.follow(e1Motor);
         s2Motor.follow(s1Motor);
-        extend = new DoubleSolenoid(ex, ex1);
+        e1Motor.setInverted(true);
+        inMotor.setInverted(true);
+        s1Motor.setInverted(true);
+        s2Motor.setInverted(true);
+        //extend = new DoubleSolenoid(ex, ex1);
     }
 
     public void control(final boolean intake, final boolean shoot, final boolean harvest){
@@ -42,29 +48,48 @@ public class Handeler{
         }
 
         if(counter > 5 && !harvest){
-            extend.set(DoubleSolenoid.Value.kReverse);
+            //extend.set(DoubleSolenoid.Value.kReverse);
         }
-        
+       
         if (shoot){
 
         }
-        
+       
         if (harvest){
             if (extended && !exdown){
-                extend.set(DoubleSolenoid.Value.kReverse);
+                //extend.set(DoubleSolenoid.Value.kReverse);
                 extended=!extended;
                 exdown = true;
             }
             else if(!exdown){
-                extend.set(DoubleSolenoid.Value.kForward);
+                //extend.set(DoubleSolenoid.Value.kForward);
                 extended=!extended;
                 exdown = true;
-                
+               
             }
         }
-        
+       
         else {
             exdown=false;
+        }
+    }
+
+    public void attack(final boolean go, final boolean shoot){
+        if (go){
+            haMotor.set(ControlMode.PercentOutput, .35);
+            inMotor.set(ControlMode.PercentOutput, .35);
+            e1Motor.set(ControlMode.PercentOutput, .45);
+        }
+        else{
+            haMotor.set(ControlMode.PercentOutput, 0);
+            inMotor.set(ControlMode.PercentOutput, 0);
+            e1Motor.set(ControlMode.PercentOutput, 0);
+        }
+        if (shoot){
+            s1Motor.set(ControlMode.PercentOutput, 1);
+        }
+        else{
+            s1Motor.set(ControlMode.PercentOutput, 0);
         }
     }
 }

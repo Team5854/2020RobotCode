@@ -3,7 +3,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 public class Drivetrain {
     TalonSRX flMotor, frMotor, brMotor, blMotor;
-    public Drivetrain(int fl, int fr, int bl, int br, boolean fl, boolean fr, boolean bl, boolean br) {
+    public Drivetrain(int fl, int fr, int bl, int br, boolean flInvert, boolean frInvert, boolean blInvert, boolean brInvert) {
         frMotor = new TalonSRX(fr);
         flMotor = new TalonSRX(fl);
         blMotor = new TalonSRX(bl);
@@ -11,8 +11,10 @@ public class Drivetrain {
         brMotor.follow(frMotor);
         blMotor.follow(flMotor);
 
-        frMotor.setInverted()
-
+        frMotor.setInverted(flInvert);
+        frMotor.setInverted(frInvert);
+        frMotor.setInverted(blInvert);
+        frMotor.setInverted(brInvert);
     }
     public void drive(double l, double r){
         frMotor.set(ControlMode.PercentOutput, r);

@@ -11,15 +11,17 @@ public class Climber{
     DoubleSolenoid solenoid1, solenoid2;
     Boolean goingUp;
     DigitalInput uplimit, downlimit;
-    public Climber(int c, int c1, int s, int s1, int up, int down) {
+    public Climber(int c, int c1) {
+        //removed: , int s, int s1, int up, int down
         cMotor = new TalonSRX(c);
         cMotor1 = new TalonSRX(c1);
         cMotor1.follow(cMotor);
-        solenoid1 = new DoubleSolenoid(s, s1);
-        uplimit = new DigitalInput(up);
-        downlimit = new DigitalInput(down);
+        cMotor1.setInverted(true);
+        //solenoid1 = new DoubleSolenoid(s, s1);
+        //uplimit = new DigitalInput(up);
+        //downlimit = new DigitalInput(down);
     }
-    
+   
     public void climb(boolean button){
         if(button){
             goingUp = !goingUp;
@@ -29,8 +31,18 @@ public class Climber{
         }
         if(!downlimit.get() && !goingUp){
             // Move motors down here
-       
+        }
     }
-}
 
+    public void move(boolean up, boolean down){
+        if(up){
+            cMotor.set(ControlMode.PercentOutput, .4);
+        }
+        else if(down){
+            cMotor.set(ControlMode.PercentOutput, -.4);
+        }
+        else{
+            cMotor.set(ControlMode.PercentOutput, 0);
+        }
+    }
 }
