@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.Compressor;
 
 
 public class Robot extends TimedRobot {
@@ -12,6 +13,7 @@ public class Robot extends TimedRobot {
   Handeler handeler;
   Climber climber;
   Arduino arduino;
+  Compressor c;
  
 
 
@@ -22,7 +24,8 @@ public class Robot extends TimedRobot {
     drivetrain = new Drivetrain(2,3,4,5,false,false,false,false);
     handeler= new Handeler(13,7,8,9,10,11);
     driver = new Joystick(0);
-    climber = new Climber(1,12);
+    climber = new Climber(1,12,0,2,9,8);
+    c = new Compressor(0);
   }
 
 
@@ -39,13 +42,14 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     System.out.println("Boo Corbin!");
     //arduino.writeString("A");
+    c.start();
+		c.setClosedLoopControl(true);
   }
 
 
  
   @Override
   public void autonomousPeriodic() {
-   
   }
 
  
@@ -54,6 +58,7 @@ public class Robot extends TimedRobot {
     drivetrain.arcade(driver.getRawAxis(1) , driver.getRawAxis(2));
     handeler.attack(driver.getRawButton(1), driver.getRawButton(2));
     climber.move(driver.getRawButton(4), driver.getRawButton(3));
+    climber.solenoid(driver.getRawButton(6), driver.getRawButton(8));
     arduino.get();
 
   }
