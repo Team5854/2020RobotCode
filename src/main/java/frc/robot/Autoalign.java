@@ -1,25 +1,29 @@
 package frc.robot;
 
 public class Autoalign extends Robot{
-    private static boolean aligning;
-    private static boolean alignedAngle = false;
-    private static boolean alignedDistance = false;
-    private static double turnpTerm = 1;
-    private static double turniTerm = 1;
-    private static double turndTerm = 1;
-    private static double turnPID;
-    private static double robotAngle;
-    private static double robotDistance;
-    private static double movepTerm = 1;
-    private static double moveiTerm = 1;
-    private static double movedTerm = 1;
-    private static double movePID;
-    private static double acum;
-    public static void alignShot(boolean input){
-        aligning = 
-        if(aligning){
+    private boolean activeAlign;
+    private boolean alignedAngle = false;
+    private boolean alignedDistance = false;
+    private double turnpTerm = 1;
+    private double turniTerm = 1;
+    private double turndTerm = 1;
+    private double turnPID;
+    private double robotAngle;
+    private double robotDistance;
+    private double movepTerm = 1;
+    private double moveiTerm = 1;
+    private double movedTerm = 1;
+    private double movePID;
+    private double acum;
+    private double Lfof = 1;
+    private double Lsep = 1;
+    private double Usof = 1;
+    private double Gdis = 1;
+    public void alignShot(boolean input){
+        if(input){activeAlign = !activeAlign;if(activeAlign){alignedAngle = false;alignedDistance = false;}}
+        if(activeAlign){
             if(!alignedAngle){
-                robotAngle = Math.atan((/*right lidar subtract left lidear divided by distance between them*/));\
+                robotAngle = Math.atan((Lfof-Lfof)/Lsep);
              if(robotAngle <= 2 && robotAngle >= -2){
                  alignedAngle = true;
              }
@@ -30,10 +34,10 @@ public class Autoalign extends Robot{
                 }
             }
             else if(alignedDistance){
-                robotDistance = /*average of both lidar*/;
+                robotDistance = ((Lfof-Lfof)/Lsep);
                 acum += robotDistance;
                 movePID = (robotDistance*movepTerm)*(acum*moveiTerm)*(Math.pow(robotDistance,2)*movedTerm);
-                drivetrain.aracde(movePID,0);
+                drivetrain.arcade(movePID,0);
             }
         }
         else{
