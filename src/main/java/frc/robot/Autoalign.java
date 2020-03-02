@@ -47,6 +47,7 @@ public class Autoalign extends Robot{
                 return 1;
             }
             else if(!alignedDistance){
+                robotDistance = (1);
                 return 1;
             }
             else{
