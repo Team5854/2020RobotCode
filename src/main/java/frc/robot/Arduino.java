@@ -1,4 +1,4 @@
-package frc.robot;
+/*package frc.robot;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
@@ -8,7 +8,7 @@ public class Arduino {
     String baby = "0";
     SerialPort arduino;
     public Arduino() {
-        arduino = new SerialPort(115200, SerialPort.Port.kUSB);
+        arduino = new SerialPort(9600, SerialPort.Port.kUSB);
     }
     public void send(String input){
         arduino.flush();
@@ -16,9 +16,12 @@ public class Arduino {
     }
 
     public void get(){
+        //arduino.flush();
         String in = arduino.readString();
-        arduino.flush();
-        String split[] = in.split(" " , 0);
+        if(in.indexOf('\n')==-1){
+            in += arduino.readString();
+        }
+        //String split[] = in.split(" " , 0);
         //lidar = Integer.parseInt(split[0])
         //baby = Integer.parseInt(split[2]);
 /*
@@ -28,8 +31,8 @@ public class Arduino {
         if (lidar == "30"){
             System.out.println("CLOSE");
         }
-*/
+
         System.out.println(in);
         //System.out.println("hiii");
     }
-}
+}*/

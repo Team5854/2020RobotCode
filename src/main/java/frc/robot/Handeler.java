@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 public class Handeler{
     int counter = 0;
     final double iSpeed = .25;
@@ -27,6 +29,7 @@ public class Handeler{
         e1Motor.setInverted(true);
         inMotor.setInverted(true);
         s1Motor.setInverted(true);
+        //s1Motor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.valueOf(0),0,2);
         s2Motor.setInverted(true);
         //extend = new DoubleSolenoid(ex, ex1);
     }
@@ -85,6 +88,7 @@ public class Handeler{
             e1Motor.set(ControlMode.PercentOutput, 0);
         }
         if (shoot){
+            //s1Motor.set(ControlMode.Velocity, 81.92);
             s1Motor.set(ControlMode.PercentOutput, 0.8);
         }
         else{

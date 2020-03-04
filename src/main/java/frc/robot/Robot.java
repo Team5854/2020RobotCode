@@ -12,7 +12,7 @@ public class Robot extends TimedRobot {
   Joystick driver;
   Handeler handeler;
   Climber climber;
-  Arduino arduino;
+  //Arduino arduino;
   Compressor c;
  
 
@@ -20,11 +20,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     //arduino = new SerialPort(9600, Port.kUSB);
-    arduino = new Arduino();
+    //arduino = new Arduino();
     drivetrain = new Drivetrain(2,3,4,5,false,false,false,false);
     handeler= new Handeler(13,7,8,9,10,11);
     driver = new Joystick(0);
-    climber = new Climber(1,12,0,2,9,8);
+    climber = new Climber(1,6,0,2,9,8);
     c = new Compressor(0);
   }
 
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
     handeler.attack(driver.getRawButton(1), driver.getRawButton(2));
     climber.move(driver.getRawButton(4), driver.getRawButton(3));
     climber.solenoid(driver.getRawButton(6), driver.getRawButton(8));
-    arduino.get();
+    //arduino.get();
 
   }
 

@@ -15,7 +15,7 @@ public class Climber{
         cMotor = new TalonSRX(c);
         cMotor1 = new TalonSRX(c1);
         cMotor1.follow(cMotor);
-        cMotor1.setInverted(true);
+        cMotor.setInverted(true);
         solenoid1 = new DoubleSolenoid(s, s1);
         uplimit = new DigitalInput(lup);
         downlimit = new DigitalInput(ldown);
@@ -25,24 +25,22 @@ public class Climber{
         if(button){
             goingUp = !goingUp;
         }
-        if(!uplimit.get() && goingUp){
+        if(uplimit.get() && goingUp){
             // Move motors up here
         }
-        if(!downlimit.get() && !goingUp){
+        if(downlimit.get() && !goingUp){
             // Move motors down here
         }
     }
 
     public void move(boolean up, boolean down){
-        if(up){
-            if(!uplimit.get()){
+        //System.out.println(downlimit.get());
+        if(up && uplimit.get()){
                 cMotor.set(ControlMode.PercentOutput, .4);
-            }
         }
-        else if(down){
-            if (!downlimit.get()){
+        else if(down && downlimit.get()){
                 cMotor.set(ControlMode.PercentOutput, -.4);
-            }
+                System.out.println("HI");
         }
         else{
             cMotor.set(ControlMode.PercentOutput, 0);
