@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 public class Climber{
     TalonSRX cMotor, cMotor1;
@@ -16,7 +17,7 @@ public class Climber{
         cMotor1 = new TalonSRX(c1);
         cMotor1.follow(cMotor);
         cMotor.setInverted(true);
-        solenoid1 = new DoubleSolenoid(s, s1);
+        //solenoid1 = new DoubleSolenoid(s, s1);
         uplimit = new DigitalInput(lup);
         downlimit = new DigitalInput(ldown);
     }
@@ -25,14 +26,23 @@ public class Climber{
         if(button){
             goingUp = !goingUp;
         }
+        /*
         if(uplimit.get() && goingUp){
             // Move motors up here
+            cMotor.set(ControlMode.PercentOutput, .4);
         }
-        if(downlimit.get() && !goingUp){
+        else if(downlimit.get() && !goingUp){
             // Move motors down here
-        }
-    }
+            cMotor.set(ControlMode.PercentOutput, -.4);
 
+         else{
+            cMotor.set(ControlMode.PercentOutput, 0);
+
+         }
+         */
+        //}
+    }
+//THE CODE ABOVE SHOULD WORK
     public void move(boolean up, boolean down){
         //System.out.println(downlimit.get());
         if(up && uplimit.get()){
@@ -40,7 +50,6 @@ public class Climber{
         }
         else if(down && downlimit.get()){
                 cMotor.set(ControlMode.PercentOutput, -.4);
-                System.out.println("HI");
         }
         else{
             cMotor.set(ControlMode.PercentOutput, 0);
@@ -50,6 +59,7 @@ public class Climber{
         if (brake){
             solenoid1.set(DoubleSolenoid.Value.kForward);
         }
+        
         else if (release){
             solenoid1.set(DoubleSolenoid.Value.kForward);
         }
