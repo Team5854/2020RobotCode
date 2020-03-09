@@ -1,5 +1,5 @@
 package frc.robot;
-
+/*
 public class Autoalign extends Robot{
     private boolean activeAlign;
     private boolean alignedAngle = false;
@@ -60,3 +60,4 @@ public class Autoalign extends Robot{
         }
     }
 }
+*/

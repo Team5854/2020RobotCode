@@ -10,6 +10,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 public class Handeler{
     int counter = 0;
     final double iSpeed = .25;
@@ -19,6 +23,8 @@ public class Handeler{
     boolean extended, exdown;
     AnalogInput irLog, loadSensor;
     double ballDistanceShaft;
+    boolean traveling = false, auto = true, toggle = false;
+    int delay;
     public Handeler(final int ha, final int in, final int e1, final int e2, final int s1, final int s2, final int eSensor , int Joe, int solenoid) {
 
 // deleted due to no harvest: , final int ex, final int ex1
@@ -40,6 +46,7 @@ public class Handeler{
         s1Motor.setInverted(true);
         s1Motor.configFactoryDefault();
         s2Motor.setInverted(true);
+
         //extend = new DoubleSolenoid(ex, ex1);
     }
 
@@ -90,12 +97,23 @@ public class Handeler{
         }
     }
 */
-    public void attack(final boolean go, final boolean shoot, final boolean elevator, final boolean edown, final boolean auto){
+    public void attack(final boolean go, final boolean shoot, final boolean elevator, final boolean edown, final boolean disable){
         //System.out.println(irLog.getAverageValue());
+        if (disable && !toggle){
+            auto = !auto;
+            toggle = true;
+            System.out.println(auto);
+            SmartDashboard.putBoolean("Brake", auto);
+        }
+        else if (disable && toggle){
+        }
+        else{
+            toggle = false;
+        }
         if (go){
             haMotor.set(ControlMode.PercentOutput, .5);
             inMotor.set(ControlMode.PercentOutput, .5);
-           // e1Motor.set(ControlMode.PercentOutput, .45);
+        // e1Motor.set(ControlMode.PercentOutput, .45);
             singlesol.set(true);
         }  
         else{
@@ -104,31 +122,6 @@ public class Handeler{
             //e1Motor.set(ControlMode.PercentOutput, 0);
             singlesol.set(false);
         }
-        if (auto){
-            //ballDistanceShaft = 20 * irLog.getAverageValue();
-            //System.out.println(ballDistanceShaft);
-            //System.out.println(irLog.getAverageValue()); 
-           if(loadSensor.getAverageValue() >= 1000){
-            //Move Intake Shaft
-                
-                for (int i = 0; i < 300000; i++){
-                    e1Motor.set(ControlMode.PercentOutput, 0.7);
-                    e2Motor.set(ControlMode.PercentOutput, 0);
-                }
-                
-                /*for (int i = 0; irLog.getAverageValue() < 2300; i++){
-                    e1Motor.set(ControlMode.PercentOutput, 0.4);
-                    System.out.println(irLog.getAverageValue());
-                }
-                */
-                
-            }
-            else {
-                e1Motor.set(ControlMode.PercentOutput, 0);
-                e2Motor.set(ControlMode.PercentOutput, 0);
-            }
-        }
-        
         if (shoot){
             s1Motor.set(ControlMode.PercentOutput, 0.8);
             System.out.println(s2Motor.getSelectedSensorVelocity());
@@ -141,6 +134,7 @@ public class Handeler{
         if (elevator){
             e1Motor.set(ControlMode.PercentOutput, 1);
             e2Motor.set(ControlMode.PercentOutput, 1);
+            inMotor.set(ControlMode.PercentOutput, 1);
         }
         else if (edown) {
             e1Motor.set(ControlMode.PercentOutput, -.4);
@@ -149,6 +143,31 @@ public class Handeler{
         if(!elevator && !edown) {
             e1Motor.set(ControlMode.PercentOutput, 0);
             e2Motor.set(ControlMode.PercentOutput, 0);
+        }
+        if (traveling){
+            counter --;
+            
+            inMotor.set(ControlMode.PercentOutput, 0.1);
+            e1Motor.set(ControlMode.PercentOutput, 0.90);
+            e2Motor.set(ControlMode.PercentOutput, -.1);
+            if (counter <= 0){
+                traveling = false;
+                e1Motor.set(ControlMode.PercentOutput, 0);
+                e2Motor.set(ControlMode.PercentOutput, 0);
+                inMotor.set(ControlMode.PercentOutput, 0);
+            }
+        }
+        else{
+            if (auto){
+                
+                if(loadSensor.getAverageValue() >= 1000){
+                //Move Intake Shaft
+                    if (!traveling){
+                        traveling = true;
+                        counter = 45;
+                    }
+                }
+            }
         }
     }
 }
