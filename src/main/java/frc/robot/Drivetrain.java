@@ -24,7 +24,7 @@ public class Drivetrain {
     }
     public void arcade(double fb, double ro, boolean boost){ 
         if (rospeed < ro){
-            rospeed+=0.05;
+            rospeed+=0.1;
         }
         else if (rospeed > ro){
             rospeed-= 0.1;
